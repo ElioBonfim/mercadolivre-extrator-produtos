@@ -1,5 +1,6 @@
 let allProducts = [];
 let filteredProducts = [];
+let currentTabUrl = '';
 
 document.addEventListener('DOMContentLoaded', () => {
     extractProducts();
@@ -12,6 +13,7 @@ function setupEventListeners() {
     document.getElementById('sortSelect').addEventListener('change', sortAndDisplay);
     document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
     document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+    document.getElementById('supabaseBtn').addEventListener('click', saveToSupabase);
 }
 
 function extractProducts() {
@@ -19,6 +21,7 @@ function extractProducts() {
     container.innerHTML = '<div class="loading"><div class="spinner"></div>Extraindo produtos...</div>';
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        currentTabUrl = tabs[0] ? tabs[0].url : '';
         chrome.tabs.sendMessage(tabs[0].id, { action: 'extractProducts' }, (response) => {
             if (chrome.runtime.lastError || !response) {
                 container.innerHTML = emptyMsg('Não consegui ler a página.',
@@ -140,4 +143,64 @@ function flash(id, msg) {
     const orig = btn.textContent;
     btn.textContent = msg;
     setTimeout(() => { btn.textContent = orig; }, 2000);
+}
+
+// ---------- Supabase ----------
+
+function toRow(p) {
+    return {
+        ml_id: p.id || null,
+        titulo: p.titulo,
+        preco: p.preco,
+        preco_original: p.preco_original,
+        desconto: p.desconto || null,
+        parcelas: p.parcelas || null,
+        frete: p.frete || null,
+        full_ml: !!p.full,
+        link: p.link || null,
+        origem: currentTabUrl || null
+    };
+}
+
+async function saveToSupabase() {
+    const btn = document.getElementById('supabaseBtn');
+    if (!filteredProducts.length) { alert('Nada para salvar. Extraia produtos primeiro.'); return; }
+    if (typeof SUPABASE_CONFIG === 'undefined' || !SUPABASE_CONFIG.url || !SUPABASE_CONFIG.publishableKey) {
+        alert('Supabase não configurado. Edite o config.js.'); return;
+    }
+
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '⏳ Salvando...';
+
+    const endpoint = `${SUPABASE_CONFIG.url}/rest/v1/${SUPABASE_CONFIG.table}`;
+    const headers = {
+        'apikey': SUPABASE_CONFIG.publishableKey,
+        'Authorization': `Bearer ${SUPABASE_CONFIG.publishableKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+    };
+
+    const rows = filteredProducts.map(toRow);
+    const BATCH = 200;
+    let salvos = 0;
+
+    try {
+        for (let i = 0; i < rows.length; i += BATCH) {
+            const chunk = rows.slice(i, i + BATCH);
+            const res = await fetch(endpoint, { method: 'POST', headers, body: JSON.stringify(chunk) });
+            if (!res.ok) {
+                const msg = await res.text();
+                throw new Error(`HTTP ${res.status}: ${msg.slice(0, 200)}`);
+            }
+            salvos += chunk.length;
+        }
+        btn.textContent = `✓ ${salvos} salvos`;
+    } catch (e) {
+        console.error('Supabase:', e);
+        btn.textContent = '✗ Erro';
+        alert('Falha ao salvar no Supabase:\n' + e.message);
+    } finally {
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2500);
+    }
 }

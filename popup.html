@@ -80,6 +80,22 @@
             background: #009147;
         }
 
+        .btn-supabase {
+            background: #3ECF8E;
+            color: #06231a;
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+
+        .btn-supabase:hover {
+            background: #34b87c;
+        }
+
+        .btn-supabase:disabled {
+            opacity: .6;
+            cursor: default;
+        }
+
         .product-price .old {
             color: #999;
             font-weight: 400;
@@ -245,6 +261,7 @@
         </select>
         <button class="btn-copy" id="copyBtn">📋 Copiar</button>
         <button class="btn-csv" id="csvBtn">⬇️ CSV</button>
+        <button class="btn-supabase" id="supabaseBtn">☁️ Salvar</button>
     </div>
 
     <div class="count" id="count"></div>
@@ -260,6 +277,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>

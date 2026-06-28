@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Mercado Livre - Extrator de Produtos",
-  "version": "1.0",
-  "description": "Extrai e lista todos os produtos exibidos na página do Mercado Livre",
+  "version": "1.1",
+  "description": "Extrai, lista e salva no Supabase todos os produtos exibidos na página do Mercado Livre",
   "permissions": ["activeTab", "scripting", "tabs"],
   "action": {
     "default_popup": "popup.html",
@@ -12,7 +12,7 @@
       "128": "images/icon128.png"
     }
   },
-  "host_permissions": ["https://mercadolivre.com.br/*", "https://*.mercadolivre.com.br/*"],
+  "host_permissions": ["https://mercadolivre.com.br/*", "https://*.mercadolivre.com.br/*", "https://*.supabase.co/*"],
   "content_scripts": [
     {
       "matches": ["https://mercadolivre.com.br/*", "https://*.mercadolivre.com.br/*"],
