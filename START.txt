@@ -1,0 +1,115 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║     🛒 EXTENSÃO CHROME - MERCADO LIVRE EXTRATOR                ║
+║                                                                  ║
+║     ✓ PRONTA PARA INSTALAR                                      ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+
+📂 CONTEÚDO DA PASTA
+═══════════════════════════════════════════════════════════════════
+
+✓ manifest.json           - Configuração da extensão
+✓ popup.html              - Interface visual
+✓ popup.js                - Lógica da popup
+✓ content.js              - Extrator de produtos
+✓ images/icon16.png       - Ícone 16x16
+✓ images/icon48.png       - Ícone 48x48
+✓ images/icon128.png      - Ícone 128x128
+✓ LEIA-ME.md              - Instruções detalhadas
+✓ INSTALAR.command        - Script de instalação (macOS)
+
+
+🚀 COMO INSTALAR
+═══════════════════════════════════════════════════════════════════
+
+OPÇÃO 1: Automático (macOS)
+───────────────────────────
+1. Dê dois cliques em: INSTALAR.command
+2. O Chrome abrirá em chrome://extensions/
+3. Siga as instruções na tela
+
+
+OPÇÃO 2: Manual (Qualquer Sistema)
+───────────────────────────────────
+1. Abra o Chrome
+2. Digite na barra: chrome://extensions/
+3. Ative "Modo do desenvolvedor" (canto superior direito)
+4. Clique "Carregar extensão sem empacotamento"
+5. Selecione ESTA PASTA (MercadoLivre-Extension)
+6. ✅ Pronto!
+
+
+📖 COMO USAR
+═══════════════════════════════════════════════════════════════════
+
+1. Acesse: mercadolivre.com.br
+2. Faça uma busca (qualquer produto)
+3. Clique no ícone 🛒 na barra do Chrome
+4. A lista de produtos aparecerá automaticamente
+
+
+🎯 FUNCIONALIDADES
+═══════════════════════════════════════════════════════════════════
+
+🔍 FILTRAR    - Busque produtos por nome
+📊 ORDENAR    - Nome (A-Z), Menor/Maior Preço
+📋 COPIAR     - Exporte lista para clipboard
+↻ EXTRAIR     - Recarregue os produtos da página
+
+
+💡 DICAS RÁPIDAS
+═══════════════════════════════════════════════════════════════════
+
+✓ Fixe a extensão na barra para acesso rápido
+✓ Filtre para encontrar produtos específicos
+✓ Ordene por preço para melhores ofertas
+✓ Copie e cole a lista em Excel/Sheets
+✓ Use em qualquer página do Mercado Livre
+
+
+🆘 PROBLEMAS?
+═══════════════════════════════════════════════════════════════════
+
+❌ "Nenhum produto encontrado"
+   → Você está em uma página vazia
+   → Tente fazer uma busca no Mercado Livre
+
+❌ Extensão não aparece
+   → Verifique se "Modo do Desenvolvedor" está ON
+   → Recarregue a página (F5)
+
+❌ Alguns dados faltam
+   → Mercado Livre muda a estrutura
+   → Clique "↻ Extrair" novamente
+
+
+🔐 SEGURANÇA
+═══════════════════════════════════════════════════════════════════
+
+✓ 100% offline (nenhum dado sai do seu navegador)
+✓ Uso pessoal exclusivo
+✓ Sem tracking, analytics ou publicidade
+✓ Nunca será distribuída
+
+
+📚 DOCUMENTAÇÃO
+═══════════════════════════════════════════════════════════════════
+
+Para instruções completas, abra: LEIA-ME.md
+
+
+═══════════════════════════════════════════════════════════════════
+
+Está pronto para usar! 🚀
+
+Passo 1: Abra Chrome
+Passo 2: Digite: chrome://extensions/
+Passo 3: Ative "Modo do desenvolvedor"
+Passo 4: Clique "Carregar extensão sem empacotamento"
+Passo 5: Selecione ESTA PASTA
+
+✅ Pronto!
+
+═══════════════════════════════════════════════════════════════════

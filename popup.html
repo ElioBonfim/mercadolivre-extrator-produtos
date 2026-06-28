@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos Mercado Livre</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 600px;
+            max-height: 700px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FFB800 0%, #FFA000 100%);
+            color: #000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-extract {
+            background: #000;
+            color: #FFB800;
+        }
+
+        .btn-extract:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        .btn-copy {
+            background: #fff;
+            color: #000;
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+
+        .btn-copy:hover {
+            background: #f0f0f0;
+        }
+
+        .btn-csv {
+            background: #00A650;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+
+        .btn-csv:hover {
+            background: #009147;
+        }
+
+        .product-price .old {
+            color: #999;
+            font-weight: 400;
+            text-decoration: line-through;
+            font-size: 11px;
+            margin-left: 6px;
+        }
+
+        .badge-disc {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .controls {
+            padding: 12px 15px;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sort-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .content {
+            overflow-y: auto;
+            height: 600px;
+            padding: 0;
+        }
+
+        .products-list {
+            list-style: none;
+        }
+
+        .product-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .product-item:hover {
+            background: #fafafa;
+        }
+
+        .product-item.highlight {
+            background: #fff3cd;
+        }
+
+        .product-name {
+            font-weight: 500;
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: #FFB800;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .status {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #FFB800;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .count {
+            font-size: 12px;
+            color: #666;
+            padding: 0 15px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛒 Produtos Mercado Livre</h1>
+        <div class="header-controls">
+            <button class="btn-extract" id="extractBtn">↻ Extrair</button>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" class="search-box" id="searchBox" placeholder="Filtrar produtos...">
+        <select class="sort-select" id="sortSelect">
+            <option value="ordem">Ordem na Página</option>
+            <option value="nome">A-Z (Nome)</option>
+            <option value="preco-asc">Menor Preço</option>
+            <option value="preco-desc">Maior Preço</option>
+            <option value="desconto">Maior Desconto</option>
+        </select>
+        <button class="btn-copy" id="copyBtn">📋 Copiar</button>
+        <button class="btn-csv" id="csvBtn">⬇️ CSV</button>
+    </div>
+
+    <div class="count" id="count"></div>
+
+    <div class="content">
+        <div id="productContainer">
+            <div class="status">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Carregando produtos da página...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
